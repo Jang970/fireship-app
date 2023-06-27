@@ -1,3 +1,7 @@
 export default function UserProfilePage({}) {
-  return <main></main>;
+  return (
+    <main>
+      <h1>User Profile</h1>
+    </main>
+  );
 }

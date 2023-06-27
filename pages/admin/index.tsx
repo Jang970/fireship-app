@@ -1,3 +1,7 @@
 export default function AdminPostsPage({}) {
-  return <main></main>;
+  return (
+    <main>
+      <h1>Admin Post</h1>
+    </main>
+  );
 }
