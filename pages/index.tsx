@@ -1,4 +1,5 @@
 import Loader from "@/components/Loader";
+import Metatags from "@/components/Metatags";
 import PostFeed from "@/components/PostFeed";
 import { firestore, postToJSON, fromMillis } from "@/lib/firebase";
 import { useState } from "react";
@@ -50,6 +51,10 @@ export default function Home(props: any) {
 
   return (
     <main>
+      <Metatags
+        title="Home Page"
+        description="Get the latest posts on our site"
+      />
       <PostFeed posts={posts} />
 
       {!loading && !postsEnd && (
