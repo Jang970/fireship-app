@@ -4,7 +4,7 @@ import PostFeed from "@/components/PostFeed";
 import { firestore, postToJSON, fromMillis } from "@/lib/firebase";
 import { useState } from "react";
 // Max post to query per page
-const LIMIT = 1;
+const LIMIT = 2;
 export async function getServerSideProps(context: any) {
   const postsQuery = firestore
     .collectionGroup("posts")

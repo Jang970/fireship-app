@@ -1,6 +1,6 @@
 import { firestore, getUserWithUsername, postToJSON } from "@/lib/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import styles from "@styles/Post.module.css";
+import styles from "../../styles/Post.module.css";
 import PostContent from "@/components/PostContent";
 import Metatags from "@/components/Metatags";
 
