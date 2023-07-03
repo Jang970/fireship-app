@@ -64,13 +64,10 @@ function PostManager() {
 }
 
 function PostForm({ defaultValues, postRef, preview }: any) {
-  const { register, handleSubmit, reset, watch, formState, errors }: any =
-    useForm({
-      defaultValues,
-      mode: "onChange",
-    });
-
-  const { isValid, isDirty } = formState;
+  const { register, handleSubmit, reset, watch }: any = useForm({
+    defaultValues,
+    mode: "onChange",
+  });
 
   const updatePost = async ({ content, published }: any) => {
     await postRef.update({
@@ -95,18 +92,7 @@ function PostForm({ defaultValues, postRef, preview }: any) {
       <div className={preview ? styles.hidden : styles.controls}>
         <ImageUploader />
 
-        <textarea
-          name="content"
-          ref={register({
-            maxLength: { value: 20000, message: "content is too long" },
-            minLength: { value: 10, message: "content is too short" },
-            required: { value: true, message: "content is required" },
-          })}
-        ></textarea>
-
-        {errors.content && (
-          <p className="text-danger">{errors.content.message}</p>
-        )}
+        <textarea name="content" ref={register}></textarea>
 
         <fieldset>
           <input
@@ -118,7 +104,7 @@ function PostForm({ defaultValues, postRef, preview }: any) {
           <label>Published</label>
         </fieldset>
 
-        <button type="submit" disabled={!isDirty || !isValid}>
+        <button type="submit" className="btn-green">
           Save Changes
         </button>
       </div>
