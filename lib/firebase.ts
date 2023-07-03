@@ -19,12 +19,13 @@ if (!firebase.apps.length) {
 export const auth: any = firebase.auth();
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 export const firestore = firebase.firestore();
-export const storage = firebase.storage();
 export const fromMillis = firebase.firestore.Timestamp.fromMillis;
 export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
+// storage exports to handle images
+export const storage = firebase.storage();
+export const STATE_CHANGED = firebase.storage.TaskEvent.STATE_CHANGED;
 
 // Helper functions
-
 /**
  * Gets a users/{uid} document with username
  * @param {string} username

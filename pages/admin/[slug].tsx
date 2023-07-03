@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import ImageUploader from "@/components/ImageUploader";
 
 export default function AdminPostEdit(props: any) {
   return (
@@ -63,10 +64,13 @@ function PostManager() {
 }
 
 function PostForm({ defaultValues, postRef, preview }: any) {
-  const { register, handleSubmit, reset, watch }: any = useForm({
-    defaultValues,
-    mode: "onChange",
-  });
+  const { register, handleSubmit, reset, watch, formState, errors }: any =
+    useForm({
+      defaultValues,
+      mode: "onChange",
+    });
+
+  const { isValid, isDirty } = formState;
 
   const updatePost = async ({ content, published }: any) => {
     await postRef.update({
@@ -89,7 +93,20 @@ function PostForm({ defaultValues, postRef, preview }: any) {
       )}
 
       <div className={preview ? styles.hidden : styles.controls}>
-        <textarea name="content" ref={register}></textarea>
+        <ImageUploader />
+
+        <textarea
+          name="content"
+          ref={register({
+            maxLength: { value: 20000, message: "content is too long" },
+            minLength: { value: 10, message: "content is too short" },
+            required: { value: true, message: "content is required" },
+          })}
+        ></textarea>
+
+        {errors.content && (
+          <p className="text-danger">{errors.content.message}</p>
+        )}
 
         <fieldset>
           <input
@@ -101,7 +118,7 @@ function PostForm({ defaultValues, postRef, preview }: any) {
           <label>Published</label>
         </fieldset>
 
-        <button type="submit" className="btn-green">
+        <button type="submit" disabled={!isDirty || !isValid}>
           Save Changes
         </button>
       </div>
