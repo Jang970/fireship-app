@@ -3,6 +3,9 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import styles from "../../styles/Post.module.css";
 import PostContent from "@/components/PostContent";
 import Metatags from "@/components/Metatags";
+import AuthCheck from "@/components/AuthCheck";
+import Link from "next/link";
+import HeartButton from "@/components/HeartButton";
 
 // Implementing ISR
 export async function getStaticProps({ params }: any) {
@@ -21,7 +24,7 @@ export async function getStaticProps({ params }: any) {
 
   return {
     props: { post, path },
-    revalidate: 5000,
+    revalidate: 100,
   };
 }
 
@@ -56,8 +59,18 @@ export default function PostPage(props: any) {
 
       <aside className="card">
         <p>
-          <strong>{post.heartCount || 0} hearts</strong>
+          <strong>{post.heartCount || 0} 🤍</strong>
         </p>
+
+        <AuthCheck
+          fallback={
+            <Link href="/enter">
+              <button>Sign Up</button>
+            </Link>
+          }
+        >
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
       </aside>
     </main>
   );
