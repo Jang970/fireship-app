@@ -6,6 +6,8 @@ import Metatags from "@/components/Metatags";
 import AuthCheck from "@/components/AuthCheck";
 import Link from "next/link";
 import HeartButton from "@/components/HeartButton";
+import { UserContext } from "@/lib/context";
+import { useContext } from "react";
 
 // Implementing ISR
 export async function getStaticProps({ params }: any) {
@@ -50,6 +52,8 @@ export default function PostPage(props: any) {
 
   const post = realtimePost || props.post;
 
+  const { user: currentUser } = useContext(UserContext);
+
   return (
     <main className={styles.container}>
       <Metatags title={post.title} description={post.title} />
@@ -71,6 +75,12 @@ export default function PostPage(props: any) {
         >
           <HeartButton postRef={postRef} />
         </AuthCheck>
+
+        {currentUser?.uid === post.uid && (
+          <Link href={`/admin/${post.slug}`}>
+            <button className="btn-blue">Edit Post</button>
+          </Link>
+        )}
       </aside>
     </main>
   );
