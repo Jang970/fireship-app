@@ -1,13 +1,24 @@
 import { firestore, auth, increment } from "../lib/firebase";
 import { useDocument } from "react-firebase-hooks/firestore";
+import Loader from "./Loader";
+import { useEffect, useState } from "react";
 
-// Allows user to heart or like a post
 export default function Heart({ postRef }: any) {
-  // Listen to heart document for currently logged in user
   const heartRef = postRef.collection("hearts").doc(auth.currentUser.uid);
-  const [heartDoc] = useDocument(heartRef);
+  // const [heartDoc, loading] = useDocument(heartRef);
 
-  // Create a user-to-post relationship
+  const [heartDoc, setHeartDoc]: any = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHeart = async () => {
+      const doc = await heartRef.get();
+      setHeartDoc(doc);
+      setLoading(false);
+    };
+    fetchHeart();
+  }, [heartRef]);
+
   const addHeart = async () => {
     const uid = auth.currentUser.uid;
     const batch = firestore.batch();
@@ -18,7 +29,6 @@ export default function Heart({ postRef }: any) {
     await batch.commit();
   };
 
-  // Remove a user-to-post relationship
   const removeHeart = async () => {
     const batch = firestore.batch();
 
@@ -28,9 +38,13 @@ export default function Heart({ postRef }: any) {
     await batch.commit();
   };
 
+  if (loading) {
+    <Loader show={loading} />;
+  }
+
   return heartDoc?.exists ? (
-    <button onClick={removeHeart}>💔 Unheart</button>
+    <button onClick={removeHeart}>Unheart</button>
   ) : (
-    <button onClick={addHeart}>💗 Heart</button>
+    <button onClick={addHeart}>Heart</button>
   );
 }

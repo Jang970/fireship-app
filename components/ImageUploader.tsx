@@ -58,6 +58,10 @@ export default function ImageUploader() {
           </label>
         </>
       )}
+
+      {downloadURL && (
+        <code className="upload-snippet">{`![alt](${downloadURL})`}</code>
+      )}
     </div>
   );
 }
