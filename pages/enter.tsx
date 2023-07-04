@@ -3,6 +3,7 @@ import { auth, firestore, googleAuthProvider } from "@/lib/firebase";
 import { useCallback, useContext, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import Metatags from "@/components/Metatags";
+import Link from "next/link";
 
 export default function EnterPage({}) {
   const { user, username } = useContext(UserContext);
@@ -17,7 +18,11 @@ export default function EnterPage({}) {
         !username ? (
           <UsernameForm />
         ) : (
-          <SignOutButton />
+          <>
+            <Link href="/">
+              <button className="btn-blue">To Feed</button>
+            </Link>
+          </>
         )
       ) : (
         <SignInButton />
